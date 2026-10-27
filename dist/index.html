@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <style>.email-note{margin:0 0 18px;padding:12px 14px;border-radius:10px;background:#eef4ef;color:#245c48;font-size:13px}</style>
 </head>
 <body>
   <div class="shell">
@@ -55,6 +56,11 @@
       <label>Título<input id="title" required maxlength="80" placeholder="Ej. Enviar informe mensual"></label>
       <label>Novedades / notas<textarea id="notes" rows="3" maxlength="400" placeholder="Agrega detalles, avances o novedades..."></textarea></label>
       <div class="form-grid">
+        <label>Creado por<input id="createdBy" required maxlength="80" placeholder="Nombre de quien reporta"></label>
+        <label>Responsable<input id="responsible" required maxlength="80" placeholder="Nombre de quien lo gestionará"></label>
+      </div>
+      <p class="email-note">✉ Al guardar, se enviará una confirmación al correo configurado por el administrador.</p>
+      <div class="form-grid">
         <label>Fecha del primer aviso<input id="date" type="date" required></label>
         <label>Prioridad<select id="priority"><option value="alta">Alta</option><option value="media" selected>Media</option><option value="baja">Baja</option></select></label>
       </div>
@@ -62,7 +68,7 @@
         <label class="radio-card"><input type="radio" name="repeat" value="daily" checked><span><b>Todos los días</b><small>Se repetirá hasta marcarlo como resuelto.</small></span></label>
         <label class="radio-card"><input type="radio" name="repeat" value="until-seen"><span><b>Desde la fecha elegida</b><small>Se repetirá hasta pulsar “Ya vi el recordatorio”.</small></span></label>
       </fieldset>
-      <div class="modal-actions"><button type="button" id="cancelModal" class="secondary">Cancelar</button><button type="submit" class="primary">Guardar recordatorio</button></div>
+      <div class="modal-actions"><button type="button" id="cancelModal" class="secondary">Cancelar</button><button id="saveReminder" type="submit" class="primary">Guardar y enviar correo</button></div>
     </form>
   </dialog>
 
