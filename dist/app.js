@@ -18,12 +18,13 @@ $('#reminderForm').onsubmit=async e=>{
   const button=$('#saveReminder');
   const reminder={id:Date.now(),title:$('#title').value.trim(),notes:$('#notes').value.trim(),createdBy:$('#createdBy').value.trim(),responsible:$('#responsible').value.trim(),date:$('#date').value,priority:$('#priority').value,repeat:new FormData(e.target).get('repeat'),done:false,seen:false};
   button.disabled=true;button.textContent='Enviando…';
+  items.unshift(reminder);e.target.reset();modal.close();filter='pending';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.filter==='pending'));render();checkDue();
   try{
     const response=await fetch('/api/reminders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(reminder)});
     const result=await response.json();
     if(!response.ok) throw new Error(result.error||'No se pudo enviar el correo');
-    items.unshift(reminder);e.target.reset();modal.close();filter='pending';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.filter==='pending'));toast('Recordatorio guardado y correo enviado');render();checkDue();
-  }catch(error){toast(error.message)}finally{button.disabled=false;button.textContent='Guardar y enviar correo'}
+    toast('Recordatorio guardado y correo enviado');
+  }catch(error){toast(`Guardado, pero el correo falló: ${error.message}`)}finally{button.disabled=false;button.textContent='Guardar y enviar correo'}
 };
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t.timer);t.timer=setTimeout(()=>t.classList.remove('show'),2600)}
 $('#notifyBtn').onclick=async()=>{if(!('Notification'in window))return toast('Este navegador no admite notificaciones');const p=await Notification.requestPermission();toast(p==='granted'?'Notificaciones activadas':'Permiso no concedido');if(p==='granted')checkDue()};
